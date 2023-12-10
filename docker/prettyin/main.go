@@ -31,7 +31,7 @@ func main() {
 		printField("Restart Count", v.RestartCount)
 		printField("CMD", v.Config.Cmd)
 		printField("Entrypoint", v.Config.Entrypoint)
-		printField("Env", v.Config.Env)
+		printList("Env", v.Config.Env)
 		printLine("Network")
 		for name, network := range v.NetworkSettings.Networks {
 			printField(fmt.Sprintf("IPAddress(%s)", name), network.IPAddress)
@@ -53,4 +53,29 @@ func printLine(s string) {
 
 func printField(name string, val any) {
 	fmt.Printf("%-18s%v\n", name+":", val)
+}
+
+func printList(name string, a any) {
+	switch list := a.(type) {
+	case []string:
+		{
+			for key, val := range list {
+				var label string
+				if key == 0 {
+					label = name + ":"
+				}
+				fmt.Printf("%-18s%v\n", label, val)
+			}
+		}
+	case map[string]struct{}:
+		{
+			var label = name + ":"
+			for key, val := range list {
+				fmt.Printf("%-18s%v  %v\n", label, key, val)
+				label = ""
+			}
+
+		}
+	}
+
 }
