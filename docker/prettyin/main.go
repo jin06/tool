@@ -22,14 +22,35 @@ func main() {
 	}
 
 	for _, v := range list {
-		fmt.Println(field("ContainerID:"), v.ID)
-		fmt.Println(field("Created:"), v.Created)
-		fmt.Println(field("Status:"), v.State.Status)
+		printLine("Basic")
+		printField("Image", v.Config.Image)
+		printField("ContainerID", v.ID)
+		printField("Status", v.State.Status)
+		printField("Created", v.Created)
+		printField("Started At", v.State.StartedAt)
+		printField("Restart Count", v.RestartCount)
+		printField("CMD", v.Config.Cmd)
+		printField("Entrypoint", v.Config.Entrypoint)
+		printField("Env", v.Config.Env)
+		printLine("Network")
+		for name, network := range v.NetworkSettings.Networks {
+			printField(fmt.Sprintf("IPAddress(%s)", name), network.IPAddress)
+		}
 
-		fmt.Println("---------------------------------------")
+		printLine("Mount")
+		printField("Host Name", v.HostnamePath)
+		printField("Hosts path", v.HostsPath)
+		printField("Log path", v.LogPath)
+		printField("Volumes", v.Config.Volumes)
+
+		fmt.Printf("\n\n")
 	}
 }
 
-func field(s string) string {
-	return fmt.Sprintf("%-15s", s)
+func printLine(s string) {
+	fmt.Printf("--------------------%s--------------------\n", s)
+}
+
+func printField(name string, val any) {
+	fmt.Printf("%-18s%v\n", name+":", val)
 }
