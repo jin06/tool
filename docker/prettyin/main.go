@@ -38,7 +38,7 @@ func main() {
 			printField(fmt.Sprintf("IPAddress(%s)", name), network.IPAddress)
 		}
 		for containerPort, bindings := range v.NetworkSettings.Ports {
-			printList(fmt.Sprintf("Ports(%s)", containerPort), bindings)
+			printList(fmt.Sprintf("Port Binding (%s)", containerPort), bindings)
 		}
 		printLine("Mount")
 		printField("Host Name", v.HostnamePath)
