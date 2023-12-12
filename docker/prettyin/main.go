@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/docker/go-connections/nat"
 	"github.com/moby/moby/api/types"
 )
 
@@ -36,7 +37,9 @@ func main() {
 		for name, network := range v.NetworkSettings.Networks {
 			printField(fmt.Sprintf("IPAddress(%s)", name), network.IPAddress)
 		}
-
+		for containerPort, bindings := range v.NetworkSettings.Ports {
+			printList(fmt.Sprintf("Ports(%s)", containerPort), bindings)
+		}
 		printLine("Mount")
 		printField("Host Name", v.HostnamePath)
 		printField("Hosts path", v.HostsPath)
@@ -74,8 +77,16 @@ func printList(name string, a any) {
 				fmt.Printf("%-18s%v  %v\n", label, key, val)
 				label = ""
 			}
-
+		}
+	case []nat.PortBinding:
+		{
+			for key, val := range list {
+				var label string
+				if key == 0 {
+					label = name + ":"
+				}
+				fmt.Printf("%-18s%v\n", label, val)
+			}
 		}
 	}
-
 }

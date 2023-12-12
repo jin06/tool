@@ -170,7 +170,28 @@
             "HairpinMode": false,
             "LinkLocalIPv6Address": "",
             "LinkLocalIPv6PrefixLen": 0,
-            "Ports": {},
+            "Ports": {
+                "8888/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "18888"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "18888"
+                    }
+                ],
+                "9000/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "19000"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "19000"
+                    }
+                ]
+            },       
             "SandboxKey": "/var/run/docker/netns/1fc001e86bbf",
             "SecondaryIPAddresses": null,
             "SecondaryIPv6Addresses": null,
